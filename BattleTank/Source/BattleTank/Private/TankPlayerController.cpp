@@ -6,6 +6,7 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	/*
 	auto ControlledTank = GetControllerTank();
 	if (ControlledTank)
 	{
@@ -15,7 +16,7 @@ void ATankPlayerController::BeginPlay()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Error Sorry!"));
 	}
-
+	*/
 	
 }
 ATank* ATankPlayerController::GetControllerTank() const
