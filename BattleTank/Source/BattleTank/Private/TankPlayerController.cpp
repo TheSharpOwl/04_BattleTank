@@ -6,7 +6,17 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("PlayerControllerBeginPlay"));
+	auto ControlledTank = GetControllerTank();
+	if (ControlledTank)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PlayerControllerBeginPlay"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Error Sorry!"));
+	}
+
+	
 }
 ATank* ATankPlayerController::GetControllerTank() const
 {
