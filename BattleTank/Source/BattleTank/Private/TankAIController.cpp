@@ -4,10 +4,10 @@
 
 void ATankAIController::BeginPlay()
 {
-	auto PossesedTank = GetAIControllerTank();
-	if (PossesedTank)
+	auto PossesedPlayer = GetPlayerTank();
+	if (PossesedPlayer)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("this is %s"), *PossesedTank->GetName());
+		UE_LOG(LogTemp, Warning, TEXT("this is %s"), *PossesedPlayer->GetName());
 	}
 	else
 	{
@@ -15,7 +15,18 @@ void ATankAIController::BeginPlay()
 	}
 }
 
-ATank *ATankAIController::GetAIControllerTank() const
+ATank *ATankAIController::GetControlledTank() const
 {
 	return Cast<ATank>(GetPawn());
+}
+
+ATank *ATankAIController::GetPlayerTank() const
+{
+	auto PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+	if (!PlayerPawn)
+	{
+		return nullptr;
+	}
+	
+	return Cast<ATank>(PlayerPawn);
 }
