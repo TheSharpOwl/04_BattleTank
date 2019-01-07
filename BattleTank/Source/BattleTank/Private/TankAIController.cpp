@@ -4,15 +4,19 @@
 
 void ATankAIController::BeginPlay()
 {
-	auto PossesedPlayer = GetPlayerTank();
-	if (PossesedPlayer)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("this is %s"), *PossesedPlayer->GetName());
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("sorry doesn't work!"));
-	}
+	Super::BeginPlay();
+	UE_LOG(LogTemp, Warning, TEXT("I'm ticking from begin !"));
+}
+
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	//TODO : Move Towards a player tank
+
+	//Aim towards the player
+	GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+
+	//Fire if ready
 }
 
 ATank *ATankAIController::GetControlledTank() const
