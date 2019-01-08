@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Kismet/GameplayStatics.h"
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+class UTankBarrel;//Forward decleration
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -24,5 +26,15 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void AimAt(FVector WorldSpaceAim);
+	void AimAt(FVector HitLocation, float LaunchSpeed);
+
+	void SetBarrelReference(UTankBarrel* BarrelToSet);
+
+	//TODO : Set turrent reference
+
+private:
+
+	UTankBarrel* Barrel = nullptr;
+
+	void MoveBarrelTowards(FVector AimDirection);
 };
