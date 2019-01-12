@@ -7,7 +7,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = true; // TODO : should this really tick ?!
 
 	// ...
 }
@@ -35,30 +35,37 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	if (!Barrel)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("it's returning"));
 		return;
 	}
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 
 	//Caluclate Launch Velocity
-	if (
-		UGameplayStatics::SuggestProjectileVelocity(
-			this,
-			OutLaunchVelocity,
-			StartLocation,
-			HitLocation,
-			LaunchSpeed,
-			false,
-			0,
-			0,
-			ESuggestProjVelocityTraceOption::DoNotTrace
-		)
-		)
-		{
-			auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-			auto TankName = GetOwner()->GetName();
-			UE_LOG(LogTemp, Warning, TEXT("%s is Aiming at %s"),*TankName,*AimDirection.ToString());
-		}
+	 bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
+		this,
+		OutLaunchVelocity,
+		StartLocation,
+		HitLocation,
+		LaunchSpeed,
+		false,
+		0,
+		0,
+		ESuggestProjVelocityTraceOption::DoNotTrace
+	);
+	if (bHaveAimSolution)
+	{
+		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		auto TankName = GetOwner()->GetName();
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f : Aim Solution Found"),Time);
+		MoveBarrelTowards(AimDirection);
+	}
+	else
+	{
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f : No Solution"));
+	}
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
@@ -75,6 +82,6 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	//Move the barrel the right amoount this frame 
 	//Given a max elevation speed, and frame time
 
-	Barrel->Elevate(5.f);
+	Barrel->Elevate(DeltaRotator.Pitch);
 }
 
