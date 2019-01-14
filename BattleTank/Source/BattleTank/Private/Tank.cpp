@@ -44,7 +44,6 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Firing !"));
 	if (!Barrel)
 	{
 		return;
@@ -52,7 +51,9 @@ void ATank::Fire()
 	//Spawn a projectile at the socket location of the barrel
 	FVector SocketLocation = Barrel->GetSocketLocation(FName("Projectile"));
 	FRotator SocketRotation = Barrel->GetSocketRotation(FName("Projectile"));
-	GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,SocketLocation, SocketRotation);
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,SocketLocation, SocketRotation);
+
+	Projectile->LaunchProjectile(4000.f);
 }
 
 void ATank::AimAt(FVector HitLocation)
