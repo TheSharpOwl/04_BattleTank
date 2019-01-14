@@ -38,7 +38,12 @@ void ATank::BeginPlay()
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	InputComponent->BindAction("Fire", IE_Pressed, this, &ATank::Fire);
+}
 
+void ATank::Fire()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Firing !"));
 }
 
 void ATank::AimAt(FVector HitLocation)

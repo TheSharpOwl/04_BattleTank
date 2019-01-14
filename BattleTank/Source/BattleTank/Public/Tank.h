@@ -21,10 +21,13 @@ public:
 	void AimAt(FVector HitLocation);
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
+		void SetBarrelReference(UTankBarrel* BarrelToSet);
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetTurretReference(UTankTurret* TurretToSet);
+		void SetTurretReference(UTankTurret* TurretToSet);
+
+	UFUNCTION(BlueprintCallable,Category = "Firing")
+		void Fire();
 
 protected:
 	// Called when the game starts or when spawned
@@ -42,5 +45,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Firing")
 	float LaunchSpeed = 4000;
+
+
 
 };

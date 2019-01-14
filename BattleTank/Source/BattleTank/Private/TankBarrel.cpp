@@ -13,7 +13,5 @@ void UTankBarrel::Elevate(float RelativeSpeed)
 	float RawNewElevation = RelativeRotation.Pitch + ElevationChange;
 	float Elevation = FMath::Clamp<float>(RawNewElevation,MinElevationDegress, MaxElevationDegrees);
 
-	UE_LOG(LogTemp, Warning, TEXT("it's calling the function %f"), Elevation);
-
 	SetRelativeRotation(FRotator(Elevation, 0.f, 0.f));
 }
