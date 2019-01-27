@@ -44,16 +44,18 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::Fire()
 {
-	if (!Barrel)
+	//We could've used FPlatformTime::Seconds() but it calculates pause and lag times also....
+	bool isReloaded = GetWorld()->GetTimeSeconds() - LastFireTime > ReloadTime;
+	if (isReloaded && Barrel)
 	{
-		return;
-	}
-	//Spawn a projectile at the socket location of the barrel
-	FVector SocketLocation = Barrel->GetSocketLocation(FName("Projectile"));
-	FRotator SocketRotation = Barrel->GetSocketRotation(FName("Projectile"));
-	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,SocketLocation, SocketRotation);
+		//Spawn a projectile at the socket location of the barrel
+		FVector SocketLocation = Barrel->GetSocketLocation(FName("Projectile"));
+		FRotator SocketRotation = Barrel->GetSocketRotation(FName("Projectile"));
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, SocketLocation, SocketRotation);
 
-	Projectile->LaunchProjectile(4000.f);
+		Projectile->LaunchProjectile(4000.f);
+		LastFireTime = GetWorld()->GetTimeSeconds();
+	}
 }
 
 void ATank::AimAt(FVector HitLocation)

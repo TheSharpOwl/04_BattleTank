@@ -52,4 +52,7 @@ private:
 
 	UTankBarrel* Barrel = nullptr;// Local barrel reference for spawning projectile
 
+	float ReloadTime = 3.f;
+
+	double LastFireTime = -3;//not 0 because I want to fire when the game starts
 };
