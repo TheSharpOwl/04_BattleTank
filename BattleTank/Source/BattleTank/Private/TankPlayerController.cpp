@@ -6,24 +6,12 @@
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	/*
-	auto ControlledTank = GetControllerTank();
-	if (ControlledTank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerControllerBeginPlay"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Error Sorry!"));
-	}
-	*/
 	
 }
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//UE_LOG(LogTemp, Warning, TEXT("The Tick Function is working !"));
 	AimTowardsCrosshair();
 }
 ATank* ATankPlayerController::GetControllerTank() const
@@ -39,7 +27,6 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector HitLocation;// Out parameter
 	if (GetSightRayHitLocation(HitLocation))//Has side-effect is going to line trace
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Hit Location is %s"), *HitLocation.ToString());
 		GetControllerTank()->AimAt(HitLocation);
 	}
 		//tell controlled tank to aim at this point

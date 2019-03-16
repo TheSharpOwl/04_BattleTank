@@ -4,7 +4,6 @@
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	UE_LOG(LogTemp, Warning, TEXT("something... %f"), Throttle);
 	//TODO : clamp between -1 and +1
 
 	auto ForceApplied = GetForwardVector() * Throttle * TrackMaxDrivingForce;

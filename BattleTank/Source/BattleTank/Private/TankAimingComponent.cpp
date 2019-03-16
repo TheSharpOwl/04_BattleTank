@@ -38,7 +38,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	if (!Barrel || !Turret)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("it's returning"));
 		return;
 	}
 	FVector OutLaunchVelocity;
