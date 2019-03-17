@@ -34,6 +34,8 @@ public:
 	//TODO : Set turrent reference
 	void SetTurretReference(UTankTurret* TurretToSet);
 
+	
+
 private:
 
 	UTankBarrel* Barrel = nullptr;
