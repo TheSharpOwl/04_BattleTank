@@ -12,8 +12,6 @@ void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* 
 
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
-
-	UE_LOG(LogTemp, Warning, TEXT("Done!"));
 }
 //Using Fly By Wire acrhitecture !
 void UTankMovementComponent::IntendMoveForward(float Throw)
@@ -23,8 +21,6 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
-
-	//TODO : prevent double speed
 }
 
 void UTankMovementComponent::IntendTurnRight(float Throw)
@@ -34,20 +30,19 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
-
-	//TODO : prevent double speed
 }
 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
 	// No need to call Super as we're replacing the functionality
 
-	UE_LOG(LogTemp, Warning, TEXT("I'm logging !"));
 	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
 
 	auto ForwardThrow = FVector::DotProduct(TankForward, AIForwardIntention);
+	auto RightThrow = FVector::CrossProduct(TankForward, AIForwardIntention).Z;
+
+	IntendTurnRight(RightThrow);
 	IntendMoveForward(ForwardThrow);
 
-	
 }
