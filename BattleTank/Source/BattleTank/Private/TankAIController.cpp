@@ -1,8 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAIController.h"
+#include "BattleTank.h"
+#include "TankAimingComponent.h"
 #include "Tank.h"
-#include "TankMovementComponent.h"
 
 void ATankAIController::BeginPlay()
 {
@@ -14,7 +15,7 @@ void ATankAIController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 
-	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	auto PlayerTank = Cast<AActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	auto ControlledTank = Cast<ATank>(GetPawn());
 	/*
 	Important Note :
@@ -22,8 +23,9 @@ void ATankAIController::Tick(float DeltaTime)
 	*/
 	if (PlayerTank)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("player tank found!"));
 		//Move towards a player tank
-		MoveToActor(PlayerTank, AcceptanceRadius);
+		MoveToActor(PlayerTank, AcceptanceRadius,true,true,true,0,true);
 		//Aim at the player's tank
 		ControlledTank->AimAt(PlayerTank->GetActorLocation());
 

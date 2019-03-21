@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "TankMovementComponent.h"
 #include "TankAIController.generated.h"
 
 class ATank;
@@ -22,5 +21,6 @@ public:
 
 private:
 	//How close the AI can get to the player
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float AcceptanceRadius = 3000.f;//supposing it's using cm
 };
