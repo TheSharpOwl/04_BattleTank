@@ -7,8 +7,18 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
-class UTankBarrel;//Forward decleration
-class UTankTurret;//Forward Decleration
+//Enum to store the firing state
+UENUM()
+enum class EFiringState : uint8
+{
+	Reloading,
+	Aiming,
+	Locked
+};
+
+//Forward Declerations
+class UTankBarrel;
+class UTankTurret;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -22,6 +32,9 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EFiringState FiringState = EFiringState::Reloading;
 
 public:	
 	// Called every frame
@@ -39,8 +52,8 @@ public:
 private:
 
 	UTankBarrel* Barrel = nullptr;
-	
 	UTankTurret* Turret = nullptr;
+
 
 	bool bHaveAimSolution;
 

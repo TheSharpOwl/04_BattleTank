@@ -23,7 +23,6 @@ void ATankAIController::Tick(float DeltaTime)
 	*/
 	if (PlayerTank)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("player tank found!"));
 		//Move towards a player tank
 		MoveToActor(PlayerTank, AcceptanceRadius,true,true,true,0,true);
 		//Aim at the player's tank
