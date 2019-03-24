@@ -14,20 +14,20 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 	AimTowardsCrosshair();
 }
-ATank* ATankPlayerController::GetControllerTank() const
+ATank* ATankPlayerController::GetControlledTank() const
 {
 	return Cast<ATank>(GetPawn());
 }
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControllerTank())
+	if (!GetControlledTank())
 	{
 		return;
 	}
 	FVector HitLocation;// Out parameter
 	if (GetSightRayHitLocation(HitLocation))//Has side-effect is going to line trace
 	{
-		GetControllerTank()->AimAt(HitLocation);
+		GetControlledTank()->AimAt(HitLocation);
 	}
 		//tell controlled tank to aim at this point
 
