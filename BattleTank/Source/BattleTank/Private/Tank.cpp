@@ -35,7 +35,7 @@ void ATank::Fire()
 {
 	//We could've used FPlatformTime::Seconds() but it calculates pause and lag times also....
 	bool isReloaded = GetWorld()->GetTimeSeconds() - LastFireTime > ReloadTime;
-	if (isReloaded && Barrel)
+	if (isReloaded && ensure(Barrel))
 	{
 		//Spawn a projectile at the socket location of the barrel
 		FVector SocketLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -49,7 +49,7 @@ void ATank::Fire()
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent)
+	if (!ensure(TankAimingComponent))
 		return;
 
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);

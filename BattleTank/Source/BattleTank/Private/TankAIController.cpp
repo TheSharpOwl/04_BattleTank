@@ -21,7 +21,7 @@ void ATankAIController::Tick(float DeltaTime)
 	Important Note :
 	Casting means converting some type to another similar one (such as putting int in float)
 	*/
-	if (PlayerTank)
+	if (ensure(PlayerTank))
 	{
 		//Move towards a player tank
 		MoveToActor(PlayerTank, AcceptanceRadius,true,true,true,0,true);
