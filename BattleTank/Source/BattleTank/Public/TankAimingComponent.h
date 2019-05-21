@@ -19,6 +19,7 @@ enum class EFiringState : uint8
 //Forward Declerations
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -45,11 +46,21 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	void Fire();
+
 private:
 
-	UTankBarrel* Barrel = nullptr;
+	UTankBarrel* Barrel = nullptr;//local reference to the barrel
 	UTankTurret* Turret = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float ReloadTime = 3.f;
+
+	double LastFireTime = -3;//not 0 because I want to fire when the game starts
 	bool bHaveAimSolution;
 
 	void MoveBarrelTowards(FVector AimDirection);
