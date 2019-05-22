@@ -11,28 +11,30 @@ UTankAimingComponent::UTankAimingComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	bWantsBeginPlay = true;
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
 }
 
+void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (GetWorld()->GetTimeSeconds() - LastFireTime > ReloadTime)
+	{
+		FiringState = EFiringState::Reloading;
+	}
+	//TODO handle aiming and locked state
+}
 
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	//added this so no one can fire at the start
+	LastFireTime = GetWorld()->GetTimeSeconds();
 	
-}
-
-
-// Called every frame
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
@@ -87,16 +89,18 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::Fire()
 {
-	if (!ensure(Barrel && ProjectileBlueprint))
-	{
-		return;
-	}
-
 	//We could've used FPlatformTime::Seconds() but it calculates pause and lag times also....
-	bool isReloaded = GetWorld()->GetTimeSeconds() - LastFireTime > ReloadTime;
 
-	if (isReloaded)
+	if (FiringState != EFiringState::Reloading)
 	{
+		if (!ensure(Barrel))
+		{
+			return;
+		}
+		if (!ensure(ProjectileBlueprint))
+		{
+			return;
+		}
 		//Spawn a projectile at the socket location of the barrel
 		FVector SocketLocation = Barrel->GetSocketLocation(FName("Projectile"));
 		FRotator SocketRotation = Barrel->GetSocketRotation(FName("Projectile"));
@@ -106,3 +110,5 @@ void UTankAimingComponent::Fire()
 		LastFireTime = GetWorld()->GetTimeSeconds();
 	}
 }
+
+

@@ -38,8 +38,6 @@ protected:
 	EFiringState FiringState = EFiringState::Reloading;
 
 public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	void AimAt(FVector HitLocation);
 	
@@ -50,6 +48,8 @@ public:
 	void Fire();
 
 private:
+	//called every frame
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UTankBarrel* Barrel = nullptr;//local reference to the barrel
 	UTankTurret* Turret = nullptr;
