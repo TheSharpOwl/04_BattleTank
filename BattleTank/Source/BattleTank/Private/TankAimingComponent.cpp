@@ -20,11 +20,18 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (GetWorld()->GetTimeSeconds() - LastFireTime > ReloadTime)
+	if (GetWorld()->GetTimeSeconds() - LastFireTime < ReloadTime)
 	{
 		FiringState = EFiringState::Reloading;
 	}
-	//TODO handle aiming and locked state
+	else if (IsBarrelMoving())
+	{
+		FiringState = EFiringState::Aiming;
+	}
+	else
+	{
+		FiringState = EFiringState::Locked;
+	}
 }
 
 // Called when the game starts
@@ -59,7 +66,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	);
 	if (bHaveAimSolution)
 	{
-		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 	}
 }
@@ -111,4 +118,11 @@ void UTankAimingComponent::Fire()
 	}
 }
 
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!ensure(Barrel))
+		return false;
 
+	auto BarrelForward = Barrel->GetForwardVector();
+	return BarrelForward.Equals(AimDirection, 0.01f);
+}

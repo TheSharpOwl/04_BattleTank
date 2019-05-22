@@ -51,6 +51,8 @@ private:
 	//called every frame
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	FVector AimDirection;
+	bool IsBarrelMoving();
 	UTankBarrel* Barrel = nullptr;//local reference to the barrel
 	UTankTurret* Turret = nullptr;
 
@@ -60,7 +62,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTime = 3.f;
 
-	double LastFireTime = -3;//not 0 because I want to fire when the game starts
+	double LastFireTime = 0;///not 0 because I want to fire when the game starts
 	bool bHaveAimSolution;
 
 	void MoveBarrelTowards(FVector AimDirection);
