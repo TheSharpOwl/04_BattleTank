@@ -17,8 +17,8 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-private:
+protected:
 	//How close the AI can get to the player
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float AcceptanceRadius = 3000.f;//supposing it's using cm
+	float AcceptanceRadius = 80000.f;//supposing it's using cm	
 };

@@ -34,6 +34,11 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	}
 }
 
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
+
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
 {
