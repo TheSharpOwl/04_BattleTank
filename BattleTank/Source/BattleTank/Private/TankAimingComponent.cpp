@@ -20,7 +20,11 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (GetWorld()->GetTimeSeconds() - LastFireTime < ReloadTime)
+	if (RoundsLeft <= 0)
+	{
+		FiringState = EFiringState::OutOfAmmo;
+	}
+	else if (GetWorld()->GetTimeSeconds() - LastFireTime < ReloadTime)
 	{
 		FiringState = EFiringState::Reloading;
 	}
@@ -105,7 +109,7 @@ void UTankAimingComponent::Fire()
 {
 	//We could've used FPlatformTime::Seconds() but it calculates pause and lag times also....
 
-	if (FiringState != EFiringState::Reloading)
+	if (FiringState != EFiringState::Reloading && FiringState != EFiringState::OutOfAmmo)//in the course he did the opposite case
 	{
 		if (!ensure(Barrel))
 		{
@@ -122,7 +126,16 @@ void UTankAimingComponent::Fire()
 
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = GetWorld()->GetTimeSeconds();
+		RoundsLeft--;
+
+		if (RoundsLeft == 0)
+			FiringState = EFiringState::OutOfAmmo;
 	}
+}
+
+int UTankAimingComponent::GetRoundsLeft() const
+{
+	return RoundsLeft;
 }
 
 bool UTankAimingComponent::IsBarrelMoving()
