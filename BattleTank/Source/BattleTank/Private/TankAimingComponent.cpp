@@ -127,9 +127,6 @@ void UTankAimingComponent::Fire()
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = GetWorld()->GetTimeSeconds();
 		RoundsLeft--;
-
-		if (RoundsLeft == 0)
-			FiringState = EFiringState::OutOfAmmo;
 	}
 }
 
