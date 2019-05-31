@@ -75,3 +75,9 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+# Starter Content
+Content/StarterContent
+
+# Added for this project
+BattleTank.VC.VC.opendb
+
