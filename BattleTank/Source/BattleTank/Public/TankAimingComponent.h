@@ -50,7 +50,7 @@ public:
 	void Fire();
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-	int GetRoundsLeft() const;
+	int32 GetRoundsLeft() const;
 
 private:
 	//called every frame
@@ -75,5 +75,6 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 4000;
 
+	UPROPERTY(EditDefaultsOnly,Category = "Firing")
 	int32 RoundsLeft = 5;
 };
