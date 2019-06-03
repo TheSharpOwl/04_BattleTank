@@ -52,7 +52,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	int32 GetRoundsLeft() const;
 
-private:
+protected:
 	//called every frame
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
@@ -61,13 +61,13 @@ private:
 	UTankBarrel* Barrel = nullptr;//local reference to the barrel
 	UTankTurret* Turret = nullptr;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTime = 3.f;
 
-	double LastFireTime = 0;///not 0 because I want to fire when the game starts
+	double LastFireTime = 0;//put the value other than 0 if you want to fire when the game starts
 	bool bHaveAimSolution;
 
 	void MoveBarrelTowards(FVector AimDirection);
