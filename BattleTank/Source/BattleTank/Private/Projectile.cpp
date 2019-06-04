@@ -32,6 +32,17 @@ void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	CollisionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+
+	//To Destroy the object after sometime
+	SetLifeSpan(DestroyDelay);
+	/*
+		//Another method is adding this code to OnHit:
+		//using a lambda
+		FTimerDelegate Delegate;
+		Delegate.BindLambda([this] { Destroy(); });
+		//Uses different SetTimer overload
+		GetWorld()->GetTimerManager().SetTimer(Timer, Delegate, DestroyDelay, false);
+	*/
 }
 
 //Not needed for now
@@ -54,5 +65,9 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
 	ExplosionForce->FireImpulse();
+	
+	//turn off collision to make the tank movment easier by destroying the collision mesh
+	SetRootComponent(ImpactBlast);
+	CollisionMesh->DestroyComponent();
 }
 
