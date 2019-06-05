@@ -34,4 +34,6 @@ public:
 		AController* EventInstigator,
 		AActor* DamageCauser
 	) override;
+	UFUNCTION(BlueprintPure,Category = "Health")
+	float GetHealthPrecent() const;
 };
