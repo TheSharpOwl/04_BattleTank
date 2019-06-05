@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Projectile.h"
+#include "GameFramework/DamageType.h"//for the DamageType in OnHit
 
 // Sets default values
 AProjectile::AProjectile()
@@ -69,5 +70,16 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
 	//turn off collision to make the tank movment easier by destroying the collision mesh
 	SetRootComponent(ImpactBlast);
 	CollisionMesh->DestroyComponent();
+
+	//apply damage to the object we hit (the projectile-side part)
+	UGameplayStatics::ApplyRadialDamage
+	(
+		this,
+		ProjectileDamage,
+		GetActorLocation(),
+		ExplosionForce->Radius,
+		UDamageType::StaticClass(),
+		TArray<AActor*>()//don't ignore anything (apply damage to all)
+	);
 }
 

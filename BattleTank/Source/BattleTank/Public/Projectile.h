@@ -22,6 +22,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly,Category = "Setup")
 	float DestroyDelay = 6.5f;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float ProjectileDamage = 20.f;
 
 public:	
 	// Called every frame

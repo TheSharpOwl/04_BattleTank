@@ -37,7 +37,7 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 		float CrossHairYLocation = 0.33333f;
 
 		UPROPERTY(EditDefaultsOnly)
-		float LineTraceRange = 1000000.f;
+		float LineTraceRange = 10000000.f;
 
 		void AimTowardsCrosshair();
 
