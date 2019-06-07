@@ -22,8 +22,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
     int32 StartingHealth = 100.f;
 
-	UPROPERTY(VisibleAnywhere ,Category = "Setup")
-	int32  CurrentHealth = StartingHealth;
+	UPROPERTY(VisibleAnywhere, Category = "Setup")
+	int32  CurrentHealth; //not initialized here because start health might be changed from the blueprints
+
+	virtual void BeginPlay() override;
 
 public:
 	//called by the engine when the damage is being done

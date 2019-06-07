@@ -22,9 +22,14 @@ void ATankAIController::Tick(float DeltaTime)
 	Important Note :
 	Casting means converting some type to another similar one (such as putting int in float)
 	*/
-	if (!ensure(PlayerTank && ControlledTank))
+	if (!ensure(ControlledTank))
+	{
 		return;
-
+	}
+	if (!ensure(PlayerTank))
+	{
+		return;
+	}
 	//Move towards a player tank
 	MoveToActor(PlayerTank, AcceptanceRadius,true,true,true,0,true);//TODO check radis in cm
 	//Aim at the player's tank
@@ -53,5 +58,9 @@ void ATankAIController::SetPawn(APawn* InPawn)
 
 void ATankAIController::OnPossessedTankDeath()
 {
+	if (!ensure(GetPawn()))
+		return;
+
 	UE_LOG(LogTemp, Warning, TEXT("Recieved"));
+	GetPawn()->DetachFromControllerPendingDestroy();
 }
