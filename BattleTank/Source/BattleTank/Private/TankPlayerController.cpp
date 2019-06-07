@@ -86,8 +86,8 @@ bool ATankPlayerController::GetLookVectorLocation(FVector LookDirection, FVector
 		HitResult,
 		StartLocation,
 		EndLocation,
-		ECollisionChannel::ECC_Visibility)
-		))
+		ECollisionChannel::ECC_Camera)
+		))//if we put ECC_Visibility, we might get bugs for example health bar on screen will affect the tracing
 	{
 		HitLocation = HitResult.Location;	
 		return true;
