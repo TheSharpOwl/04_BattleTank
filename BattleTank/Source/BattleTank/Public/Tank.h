@@ -7,7 +7,7 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
-class UTankBarrel;//Forward declaration
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -36,4 +36,8 @@ public:
 	) override;
 	UFUNCTION(BlueprintPure,Category = "Health")
 	float GetHealthPrecent() const;
+
+	
+	FTankDelegate OnDeath;
+
 };
